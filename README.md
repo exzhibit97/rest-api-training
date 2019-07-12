@@ -21,6 +21,7 @@ REST API architecture, with purpose to make CRUD operations on simple MySQL data
 * `sh docker/db_up.sh` - ups database container
 * `npm run db:migrate`- creates migrations in database
 * `npm run db:unmigrate` - destroys migrations in database
+* `npm run db:seed` - seeds tables in database
 
 
 ## Changelog
