@@ -31,7 +31,8 @@ REST API architecture, with purpose to make CRUD operations on simple MySQL data
     * Dockerized database server
 * **12.07.19 v0.0.2**
   * *Added*
-    * Routing for vehicles
-    * Models for vehicles
+    * Routing for vehicles, types
+    * Models for vehicles, types
+    * Migrations for vehicles, types
   * *Modified*
     * Database's docker config files
