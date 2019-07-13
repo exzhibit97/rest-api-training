@@ -3,7 +3,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     queryInterface.bulkInsert(
-      "Types",
+      "types",
       [
         {
           name: "Samochód osobowy",
@@ -34,7 +34,7 @@ module.exports = {
       {}
     );
     return queryInterface.bulkInsert(
-      "Vehicles",
+      "vehicles",
       [
         {
           name: "Volkswagen Golf",
