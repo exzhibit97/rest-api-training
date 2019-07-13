@@ -22,7 +22,7 @@ app.use(
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(require("./routers/api"));
+app.use(require("./src/config/routers/api"));
 
 app.listen(port, () => {
   console.log(`Server is running live on port: ${port}`);
