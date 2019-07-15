@@ -20,7 +20,7 @@ const VehicleRepository = proxyquire(
   }
 );
 
-describe("Parking repository tests", () => {
+describe("Vehicle repository tests", () => {
   let repository = null;
 
   beforeEach(() => {
@@ -88,13 +88,31 @@ describe("Parking repository tests", () => {
         expect(vehicles).to.be.equal(expectedResult);
       });
     });
+
+    context("Vehicles do not exist in database", async () => {
+      let vehicles = null;
+      let mapArrayStub = null;
+      let expectedResult = 0;
+
+      beforeEach(async () => {
+        mapArrayStub = sinon
+          .stub(dataUtils, "mapDataValues")
+          .resolves(expectedResult);
+
+        vehicles = await repository.getVehicles();
+      });
+
+      it("Calls Vehicle.findAll", async () => {
+        expect(mockModels.Vehicle.findAll.called).to.be.equal(true);
+      });
+
+      it("Calls mapping array from data utils", async () => {
+        expect(mapArrayStub.called).to.be.equal(true);
+      });
+
+      it("Returns empty array", () => {
+        expect(vehicles).to.be.equal(expectedResult);
+      });
+    })
   });
 });
-
-/*
-const googleClientExtractorSpy = sinon.spy(adapter, 'googleClient');
-
-    await adapter.extractGoogleSheetRowsFunction();
-
-    expect(googleClientExtractorSpy.called).to.be.equal(true);
-*/

@@ -10,7 +10,7 @@ class VehicleRepository {
 
     const vehicles = await this.dataUtils.mapDataValues(vehiclesData);
 
-    return vehicles;
+    return vehicles.length > 0 ? vehicles : 0;
   };
 
   getVehicle = async (req, res) => {

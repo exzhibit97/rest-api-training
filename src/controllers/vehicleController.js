@@ -1,11 +1,25 @@
+const HttpStatus = require("../utils/http.status");
+const VehiclesNotFoundError = require("../errors/vehicles.not.found.error");
 class VehicleController {
   constructor(vehicleRepository) {
     this.vehicleRepository = vehicleRepository;
   }
 
   getVehicles = async (req, res) => {
-    const vecs = await this.vehicleRepository.getVehicles();
-    console.log("getting vehicles");
+    try {
+      const vehiclesArray = await this.vehicleRepository.getVehicles();
+
+      if (!vehiclesArray) {throw new VehiclesNotFoundError()};
+
+      return res.status(HttpStatus.HTTP_200_OK).json({
+        vehicles: vehiclesArray
+      });
+    } catch (error) {
+      return res.status(error.status).json({
+        message: error.message,
+        type: error.type
+      });
+    }
   };
 
   getVehicle = async (req, res) => {
