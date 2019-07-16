@@ -2,28 +2,24 @@ const sinon = require("sinon");
 const proxyquire = require("proxyquire");
 const { expect } = require("chai");
 const { makeMockModels } = require("sequelize-test-helpers");
+const DataUtils = require('../../src/utils/dataUtils');
 
 const mockModels = makeMockModels({ Vehicle: { findAll: sinon.stub() } });
-const Vehicle = {
-  findAll: () => {}
-};
-
-const dataUtils = {
-  mapDataValues: () => {}
-};
-
+const dataUtils = new DataUtils();
 const VehicleRepository = proxyquire(
   "../../src/repositories/vehicleRepository",
   {
-    "../utils/dataUtils": dataUtils,
+    dataUtils: dataUtils,
     "../models": mockModels
   }
 );
 
 describe("Vehicle repository tests", () => {
   let repository = null;
+  let dataUtils = null;
 
   beforeEach(() => {
+    dataUtils = new DataUtils();
     repository = new VehicleRepository(dataUtils);
   });
 
@@ -35,6 +31,32 @@ describe("Vehicle repository tests", () => {
     context("Vehicles exist in database", async () => {
       let vehicles = null;
       let mapArrayStub = null;
+      let input = [
+        {
+          dataValues: {
+            id: 1,
+            name: "Volkswagen Golf",
+            engine: "Gasoline",
+            color: "Red",
+            price: "3000",
+            typeId: 1,
+            createdAt: "2018-10-10T10:00:00.000Z",
+            updatedAt: "2018-10-10T10:00:00.000Z"
+          }
+        },
+        {
+          dataValues: {
+            id: 2,
+            name: "Jeep Grand Cherokee",
+            engine: "Gasoline",
+            color: "Gray",
+            price: "11000",
+            typeId: 2,
+            createdAt: "2018-10-10T10:00:00.000Z",
+            updatedAt: "2018-10-10T10:00:00.000Z"
+          }
+        }
+      ];
       let expectedResult = [
         {
           id: 1,
@@ -53,16 +75,6 @@ describe("Vehicle repository tests", () => {
           color: "Gray",
           price: "11000",
           typeId: 2,
-          createdAt: "2018-10-10T10:00:00.000Z",
-          updatedAt: "2018-10-10T10:00:00.000Z"
-        },
-        {
-          id: 3,
-          name: "Solaris",
-          engine: "Diesel",
-          color: "Yellow",
-          price: "11000",
-          typeId: 3,
           createdAt: "2018-10-10T10:00:00.000Z",
           updatedAt: "2018-10-10T10:00:00.000Z"
         }
@@ -113,6 +125,6 @@ describe("Vehicle repository tests", () => {
       it("Returns empty array", () => {
         expect(vehicles).to.be.equal(expectedResult);
       });
-    })
+    });
   });
 });

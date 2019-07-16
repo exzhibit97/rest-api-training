@@ -1,7 +1,7 @@
 class DataUtils {
-  mapDataValues = async dataArray => {
+  mapDataValues = async (dataArray) => {
     const mappedArray = [];
-
+    
     dataArray.map(dataItem => {
       mappedArray.push(dataItem.dataValues);
     });

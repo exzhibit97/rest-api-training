@@ -13,8 +13,16 @@ class VehicleRepository {
     return vehicles.length > 0 ? vehicles : 0;
   };
 
-  getVehicle = async (req, res) => {
-    console.log("getting single vehicle");
+  getVehicle = async id => {
+    const vehicleData = await Vehicle.findOne({ where: id });
+
+    if (!vehicleData) {
+      return 0;
+    }
+    
+    const { dataValues } = vehicleData;
+
+    return dataValues;
   };
 
   removeVehicle = async (req, res) => {

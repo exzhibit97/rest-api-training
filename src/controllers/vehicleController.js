@@ -1,5 +1,6 @@
 const HttpStatus = require("../utils/http.status");
 const VehiclesNotFoundError = require("../errors/vehicles.not.found.error");
+const VehicleNotFoundError = require("../errors/vehicle.not.found.error");
 class VehicleController {
   constructor(vehicleRepository) {
     this.vehicleRepository = vehicleRepository;
@@ -9,7 +10,9 @@ class VehicleController {
     try {
       const vehiclesArray = await this.vehicleRepository.getVehicles();
 
-      if (!vehiclesArray) {throw new VehiclesNotFoundError()};
+      if (!vehiclesArray) {
+        throw new VehiclesNotFoundError();
+      }
 
       return res.status(HttpStatus.HTTP_200_OK).json({
         vehicles: vehiclesArray
@@ -23,8 +26,23 @@ class VehicleController {
   };
 
   getVehicle = async (req, res) => {
-    console.log(this.getVehicles());
-    console.log("getting single vehicle");
+    try {
+      const { params: id } = req;
+      const vehicle = await this.vehicleRepository.getVehicle(id);
+
+      if (!vehicle) {
+        throw new VehicleNotFoundError();
+      }
+
+      return res.status(HttpStatus.HTTP_200_OK).json({
+        vehicle
+      });
+    } catch (error) {
+      return res.status(error.status).json({
+        message: error.message,
+        type: error.type
+      });
+    }
   };
 
   removeVehicle = async (req, res) => {
