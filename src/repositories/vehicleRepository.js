@@ -19,26 +19,67 @@ class VehicleRepository {
     if (!vehicleData) {
       return 0;
     }
-    
+
     const { dataValues } = vehicleData;
 
     return dataValues;
   };
 
-  removeVehicle = async (req, res) => {
-    console.log("removing vehicle");
+  removeVehicle = async id => {
+    return await Vehicle.destroy({
+      where: id
+    });
   };
 
-  changePrice = async (req, res) => {
-    console.log("changing price");
+  changePrice = async (id, price) => {
+    const updatedVehicle = await Vehicle.update(
+      {
+        price
+      },
+      {
+        where: id
+      }
+    );
+
+    return updatedVehicle[0] ? 1 : 0;
   };
 
-  updateVehicle = async (req, res) => {
-    console.log("updating vehicle");
+  updateVehicle = async vehicle => {
+    const { id, name, typeId, engine, price, color } = vehicle;
+
+    const updatedVehicle = await Vehicle.update(
+      {
+        name,
+        typeId,
+        engine,
+        price,
+        color
+      },
+      { where: id }
+    );
+
+    return updatedVehicle[0] ? 1 : 0;
   };
 
-  addVehicle = async (req, res) => {
-    console.log("adding vehicle");
+  createVehicle = async vehicle => {
+    const { name, typeId, engine, price, color } = vehicle;
+    const createStatus = await Vehicle.create({
+      name,
+      typeId,
+      engine,
+      price,
+      color
+    });
+
+    return createStatus.dataValues;
+  };
+
+  findVehicle = async id => {
+    const findStatus = await Vehicle.findOne({
+      where: id
+    });
+
+    return findStatus ? 1 : 0;
   };
 }
 
