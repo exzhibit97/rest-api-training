@@ -41,3 +41,6 @@ REST API architecture, with purpose to make CRUD operations on simple MySQL data
 * **13.07.19 v0.0.3**
   * *Added*
     * Dependencies for tests: Sinon, Mocha, Chai
+* **15.08.19 v0.1.3**
+  * *Added*
+    * Endpoint to create type
