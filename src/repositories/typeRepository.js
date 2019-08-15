@@ -12,7 +12,7 @@ class TypeRepository {
   findType = async type => {
     const typeData = await Type.findOne({ where: { name: type } });
     if (typeData) {
-      return 1;
+      return typeData.dataValues;
     }
 
     return 0;

@@ -5,6 +5,29 @@ class VehicleRepository {
     this.dataUtils = dataUtils;
   }
 
+  getNamedVehicles = async carname => {
+    const vehiclesData = await Vehicle.findAll({
+      where: {
+        name: carname
+      }
+    });
+
+    return vehiclesData.length > 0 ? vehiclesData : 0;
+  };
+
+  updateVehiclesType = async (carname, typeId) => {
+    const updatedVehicles = await Vehicle.update(
+      {
+        typeId
+      },
+      {
+        where: { name: carname }
+      }
+    );
+
+    return updatedVehicles;
+  };
+
   getVehicles = async () => {
     const vehiclesData = await Vehicle.findAll();
 

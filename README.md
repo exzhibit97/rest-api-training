@@ -44,3 +44,4 @@ REST API architecture, with purpose to make CRUD operations on simple MySQL data
 * **15.08.19 v0.1.3**
   * *Added*
     * Endpoint to create type
+    * Endpoint to create named vehicles type ID

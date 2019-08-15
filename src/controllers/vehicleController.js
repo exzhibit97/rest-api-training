@@ -3,9 +3,11 @@ const VehiclesNotFoundError = require("../errors/vehicles.not.found.error");
 const VehicleNotFoundError = require("../errors/vehicle.not.found.error");
 const VehicleNotUpdatedError = require("../errors/vehicle.not.updated.error");
 const NotSufficientDataError = require("../errors/not.sufficient.data.error");
+const TypeNotFoundError = require("../errors/type.not.found.error");
 class VehicleController {
-  constructor(vehicleRepository) {
+  constructor(vehicleRepository, typeRepository) {
     this.vehicleRepository = vehicleRepository;
+    this.typeRepository = typeRepository;
   }
 
   getVehicles = async (req, res) => {
@@ -119,6 +121,43 @@ class VehicleController {
 
       return res.status(HttpStatus.HTTP_200_OK).json({
         added: addedVehicle
+      });
+    } catch (error) {
+      return res.status(error.status).json({
+        message: error.message,
+        type: error.type
+      });
+    }
+  };
+
+  changeVehiclesType = async (req, res) => {
+    try {
+      const { carname, typename } = req.body;
+
+      if (!carname || !typename) {
+        throw new NotSufficientDataError();
+      }
+
+      const foundType = await this.typeRepository.findType(typename);
+
+      if (!foundType.id) {
+        throw new TypeNotFoundError();
+      }
+      const { id } = foundType;
+
+      const foundCars = await this.vehicleRepository.getNamedVehicles(carname);
+
+      if (!foundCars) {
+        throw new VehiclesNotFoundError();
+      }
+
+      const updatedVehicles = await this.vehicleRepository.updateVehiclesType(
+        carname,
+        id
+      );
+
+      return res.status(HttpStatus.HTTP_200_OK).json({
+        updated: updatedVehicles[0]
       });
     } catch (error) {
       return res.status(error.status).json({

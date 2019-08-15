@@ -1,6 +1,6 @@
 const HttpStatus = require("../utils/http.status");
 
-class VehiclesNotFoundError extends Error {
+class TypeNotFoundError extends Error {
   constructor(message, status, type) {
     super();
 
@@ -8,12 +8,12 @@ class VehiclesNotFoundError extends Error {
 
     this.name = this.constructor.name;
 
-    this.type = type || "vehicles-not-found-error";
+    this.type = type || "type-not-found-error";
 
-    this.message = message || "There are no such vehicles in database";
+    this.message = message || "There is no such type in database";
 
     this.status = status || HttpStatus.HTTP_400_BAD_REQUEST;
   }
 }
 
-module.exports = VehiclesNotFoundError;
+module.exports = TypeNotFoundError;
