@@ -8,3 +8,5 @@ db:
     MYSQL_DATABASE: sadok_learning_db
   command:
     ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+  volumes:
+    - ./database/mysql:/var/lib/mysql
