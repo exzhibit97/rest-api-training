@@ -22,6 +22,7 @@ class VehicleController {
         vehicles: vehiclesArray
       });
     } catch (error) {
+      console.log(error);
       return res.status(error.status).json({
         message: error.message,
         type: error.type
